@@ -30,7 +30,7 @@ const details: DetailProps[] = [
 		response: "50% of the proceeds will go directly towards compensating the creator of the website and the artist. 40% of the proceeds will go towards creating educational resources for people in the AUC network looking to learn about blockchain technology. 10% of the proceeds go directly towards funding AUC schools."
 	},
 	{
-		prompt: "Tell me more about what the money for blockchain education will go.",
+		prompt: "Tell me more about where the money for blockchain education will go.",
 		response: "This money will be used to create content, courses, and resources that will be free for the AUC network to consume. Our plan is to develop an E-Book that gives readers all the information they need to use and leverage blockchain technology. We also plan to create an online course that breaks down how to build blockchain-based software for coders that are looking to build Web 3.0 applications. Lastly, we plan to set aside money to directly fund teams that are looking to validate their blockchain app ideas."
 	},
 	{
@@ -42,7 +42,7 @@ const details: DetailProps[] = [
 		response: "An NFT is short for non-fungible token. It's essentially a token that can be used to show the ownership of a unique digital asset that exists on a blockchain network."
 	},
 	{
-		prompt: "Why would a want to own an NFT?",
+		prompt: "Why would I want to own an NFT?",
 		response: "NFTs have the same ability to rise in value as cryptocurrencies like Bitcoin and Ethereum. For example, 10,000 CryptoPunk NFTs were given away for free in 2017 and the current largest sale was for $7.58 million in March, 2021. Beyond the potential financial gain, NFTs can be used to digitally represent the things that you care about (like supporting HBCUs) and bring together NFT owners that often have common interests. This is often done by created exclusive memberships for NFT holders, where owners can connect digitally and physically and are also able to receive additional perks based on their ownership. A good example of this is The Bored Ape Yacht Club."
 	},
 	{
