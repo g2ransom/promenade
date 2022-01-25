@@ -23,7 +23,7 @@ const details: DetailProps[] = [
 	},
 	{
 		prompt: "Why does blockchain education matter?",
-		response: "Bitcoin was worth 433.44 Jan 1, 2016. Today, it’s worth over $36,000 with a peak of over 67,000 on Nov 7th, 2021. The creators of these platforms, who build cryptocurrencies that grow in value as the community grows, will be in a space to make a lot of money and make a tremendous impact. It's vital that we equip black people with the tools to build tech that has such a high potential upside. Blockchain education matters the same way that learning how to build mobile apps mattered a decade ago."
+		response: "Bitcoin was worth $433.44 Jan 1, 2016. Today, it’s worth over $36,000 with a peak of over $67,000 on Nov 7th, 2021. The creators of these platforms, who build cryptocurrencies that grow in value as the community grows, will be in a space to make a lot of money and make a tremendous impact. It's vital that we equip black people with the tools to build tech that has such a high potential upside. Blockchain education matters the same way that learning how to build mobile apps mattered a decade ago."
 	},
 	{
 		prompt: "Where does the money go?",
