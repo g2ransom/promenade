@@ -1,7 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
 	Avatar,
 	Box,
+	Button,
 	Container,
 	Grid,
 	Typography,
@@ -32,10 +34,17 @@ const styles = {
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
-		marginTop: "-.15em",
-		ml: -2,
+		marginTop: "-0.15em",
+		ml: 0,
 		marginBottom: "3.0em",
 	},
+	button: {
+		boxSizing: "border-box",
+		mt: 2,
+		width: "100%",
+		padding: ".5em 4.5em",
+		mr: 1,
+	}
 }
 
 function HeadlineImg() {
@@ -83,10 +92,30 @@ export default function Headline() {
 						An NFT art sale that gives 40% of the proceeds to blockchain education
 						for the Atlanta University Center Network.  
 					</Typography>
-					<Box sx={styles.modalBox}>
-						<SubscribeModal />
-					</Box>
-
+						<Grid container sx={styles.modalBox}>
+							<Box display="flex" alignItems="center" justifyContent="center">
+							<Grid container display="flex" alignItems="center" spacing={2}>
+							<Grid item xs={12} sm={6} md={6} lg={6}>
+								<Button
+									variant="bold"
+									component={Link}
+									size="medium"
+									to="/presale"
+									sx={{...styles.button, mt: 2.0}}
+								>
+									Presale
+								</Button>
+							</Grid>
+							<Grid item xs={12} sm={6} md={6} lg={6}>
+								<SubscribeModal
+									buttonSize="medium"
+									variant="bold"
+									styles={{...styles.button, backgroundColor: "white"}}
+								/>
+							</Grid>
+							</Grid>
+							</Box>
+						</Grid>
 				</Grid>
 			</Grid>
 		</Container>

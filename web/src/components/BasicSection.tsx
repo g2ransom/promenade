@@ -1,11 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import {
 	Box,
+	Button,
 	Container,
 	Typography,
 } from "@mui/material";
-
-import SubscribeModal from "./SubscribeModal";
 
 export type SectionProps = {
 	title: string,
@@ -20,11 +20,14 @@ const styles = {
 	modal: {
 		display: "flex",
 		justifyContent: "start",
-		marginTop: "-.025em", 
+		marginTop: "-1.5em", 
 		marginLeft: "-1em",
 		marginBottom: "3.0em",
 		ml: 0,
 	},
+	button: {
+		padding: ".5em 4.5em"
+	}
 };
 
 export default function BasicSection({ title, text }: SectionProps) {
@@ -41,9 +44,15 @@ export default function BasicSection({ title, text }: SectionProps) {
 			>
 				{text}
 			</Typography>
-			<Box 
-				sx={styles.modal}>
-				<SubscribeModal />
+			<Box sx={styles.modal}>
+				<Button
+					variant="bold"
+					component={Link}
+					to="/presale"
+					sx={{...styles.button, mt: 4.95}}
+				>
+					Presale
+				</Button>
 			</Box>
 		</Container>
 	);

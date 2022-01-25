@@ -5,14 +5,20 @@ import {
 } from "@mui/material";
 import MailchimpForm from "./MailchimpForm";
 
-const styles = {
+export const styles = {
 	button: {
 		mt: 2,
 		padding: ".5em 4.5em"
 	}
 }
 
-export default function SubscribeModal() {
+interface ButtonProps {
+	buttonSize: "small" | "medium" | "large" | undefined;
+	variant: "text" | "bold" | "outlined" | "contained" | undefined;
+	styles: any;
+}
+
+export default function SubscribeModal({buttonSize, variant, styles}: ButtonProps) {
 	const [open, setOpen] = useState(false);
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -20,10 +26,12 @@ export default function SubscribeModal() {
 	return (
 		<div>
 			<Button
-				size="medium" 
-				variant="bold"
-				sx={styles.button}
-				onClick={handleOpen}>Learn More</Button>
+				size={buttonSize} 
+				variant={variant}
+				sx={styles}
+				onClick={handleOpen}>
+					Subscribe
+				</Button>
 			<Modal
 				open={open}
 				onClose={handleClose}
