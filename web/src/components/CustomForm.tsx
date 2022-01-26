@@ -52,7 +52,6 @@ export interface MCFormProps {
 
 export default function CustomForm({ status, message, onValidated, fields }: MCFormProps) {
 	const [state, dispatch] = useReducer(MCFormReducer, initialState);
-	console.log(state);
 
 	const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		dispatch({
@@ -60,7 +59,6 @@ export default function CustomForm({ status, message, onValidated, fields }: MCF
 			field: e.target.name,
 			payload: e.target.value,
 		})
-		console.log(state);
 	};
 
 	const validateEmail = (email: string) => {

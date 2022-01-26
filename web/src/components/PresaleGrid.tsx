@@ -7,7 +7,9 @@ import {
 	Grid,
 	Paper,
 	Typography,
-} from "@mui/material"
+} from "@mui/material";
+
+import ReactGA from "react-ga";
 
 import grandmasGarden from "../images/grandmasgarden1080x1080.png";
 import girlEarring from "../images/girlwiththehoopearring1080x1080.png";
@@ -128,8 +130,12 @@ const styles = {
 }
 
 function PresaleGridItem({ title, price, image, link }: PresaleGridItemProps) {
+	const handleClick = () => {
+		ReactGA.outboundLink({ label: link }, function() {console.log("redirect here")})
+	}
+
 	return (
-		<a href={link} style={styles.href}>
+		<a href={link} style={styles.href} onClick={handleClick}>
 			<Paper sx={styles.paper} elevation={10}>
 				<Avatar
 					alt="image"
@@ -169,12 +175,13 @@ export default function PresaleGrid() {
 			<Box display="flex" alignItems="center">
 				<Grid container spacing={2} sx={styles.gridContainer}>
 					{presaleItems.map((item, i) => (
-						<Grid item>
+						<Grid item key={i}>
 							<PresaleGridItem
 								title={item.title}
 								price={item.price}
 								image={item.image}
 								link={item.link}
+								key={i}
 							/>
 						</Grid>
 					))}

@@ -101,7 +101,7 @@ function NFTSaleDetails() {
 					Details
 				</Typography>
 				{details.map((detail, i) => (
-					<DetailQuestion prompt={detail.prompt} response={detail.response} />
+					<DetailQuestion prompt={detail.prompt} response={detail.response} key={i} />
 				))}
 			</Box>
 		</Container>

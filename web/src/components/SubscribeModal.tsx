@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactGA from "react-ga";
 import {
 	Button,
 	Modal,
@@ -20,7 +21,11 @@ interface ButtonProps {
 
 export default function SubscribeModal({buttonSize, variant, styles}: ButtonProps) {
 	const [open, setOpen] = useState(false);
-	const handleOpen = () => setOpen(true);
+	const handleOpen = () => {
+		ReactGA.modalview("/subscribe");
+		setOpen(true);
+
+	};
 	const handleClose = () => setOpen(false);
 
 	return (
