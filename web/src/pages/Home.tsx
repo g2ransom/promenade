@@ -7,6 +7,7 @@ import {
 import Headline from "../components/Headline";
 import ImageHeaderContent from "../components/ImageHeaderContent";
 import BasicSection, { SectionProps } from "../components/BasicSection";
+import PresaleGrid from "../components/PresaleGrid";
 
 let sections: SectionProps[] = [
 	{
@@ -48,6 +49,7 @@ export default function Home() {
 			<Box>
 				<Headline />
 				<NFTSaleHeader />
+				<PresaleGrid />
 				<ImageHeaderContent />
 				{sections.map((section, i) => {
 					return <BasicSection key={i} title={section.title} text={section.text}/>

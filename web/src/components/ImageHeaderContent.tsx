@@ -17,6 +17,8 @@ const styles = {
 		boxSizing: "border-box",
 		paddingTop: "1.5em",
 		paddingBottom: "1.5em",
+		marginTop: "4em",
+		marginBottom: "1em"
 	},
 	avatar: {
 		height: "auto",

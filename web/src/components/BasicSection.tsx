@@ -14,8 +14,9 @@ export type SectionProps = {
 
 const styles = {
 	header: {
-		color: "#0000FF",
+		color: "#0000D1",
 		marginBottom: ".25em",
+		paddingTop: "0.225em",
 	},
 	modal: {
 		display: "flex",
