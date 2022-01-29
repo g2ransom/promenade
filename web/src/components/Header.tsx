@@ -50,7 +50,7 @@ export default function Header() {
 				<Box sx={{marginBottom: "1.5em"}}>
 					<IconButton
 						color="inherit"
-						href="https://github.com/g2ransom/thurman"
+						href="https://github.com/g2ransom/promenade"
 					>
 						<GitHubIcon sx={styles.githubButton} />
 					</IconButton>
