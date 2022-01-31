@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	Avatar,
 	Box,
 	Container,
 	Divider,
 	Grid,
+	Modal,
 	Paper,
 	Typography,
 } from "@mui/material";
 
 import ReactGA from "react-ga";
+import { Wallet } from "./Wallet";
 
 import grandmasGarden from "../images/grandmasgarden1080x1080.png";
 import girlEarring from "../images/girlwiththehoopearring1080x1080.png";
@@ -24,7 +26,7 @@ interface PresaleGridItemProps {
 	title: string;
 	price: string;
 	image: string;
-	link: string;
+	onClick?: () => void;
 }
 
 const presaleItems: PresaleGridItemProps[] = [
@@ -32,49 +34,41 @@ const presaleItems: PresaleGridItemProps[] = [
 		title: "Grandma's Garden",
 		price: "$40",
 		image: grandmasGarden,
-		link: "https://buy.stripe.com/14k7sE2T56SabRe144",
 	},
 	{
 		title: "Girl with the Hoop Earring",
 		price: "$225",
 		image: girlEarring,
-		link: "https://buy.stripe.com/dR6cMY2T55O67AY4gh",
 	},
 	{
 		title: "Without Struggle",
 		price: "$450",
 		image: withoutStruggle,
-		link: "https://buy.stripe.com/7sI14g0KX0tMf3q3ce",
 	},
 	{
 		title: "No Fury",
 		price: "$900",
 		image: noFury,
-		link: "https://buy.stripe.com/28o9AMgJVfoG1cA9AD",
 	},
 	{
 		title: "St. Ignis",
 		price: "$2,250",
 		image: stIgnis,
-		link: "https://buy.stripe.com/fZeeV63X990if3q148",
 	},
 	{
 		title: "My Favorite Hue No. 1",
 		price: "$4,500",
 		image: myFavhue,
-		link: "https://buy.stripe.com/14k4gs3X94K2bRe4gl",
 	},
 	{
 		title: "Breakthrough",
 		price: "$6,750",
 		image: breakthrough,
-		link: "https://buy.stripe.com/dR63coctF4K24oMaEK",
 	},
 	{
 		title: "Baptized in Fire",
 		price: "$9,000",
 		image: baptizedInFire,
-		link: "https://buy.stripe.com/9AQ00cdxJ2BUaNadQX",
 	},
 ];
 
@@ -129,14 +123,10 @@ const styles = {
 	},
 }
 
-function PresaleGridItem({ title, price, image, link }: PresaleGridItemProps) {
-	const handleClick = () => {
-		ReactGA.outboundLink({ label: link }, function() {console.log("redirect here")})
-	}
+function PresaleGridItem({ title, price, image, onClick }: PresaleGridItemProps) {
 
 	return (
-		<a href={link} style={styles.href} onClick={handleClick}>
-			<Paper sx={styles.paper} elevation={10}>
+			<Paper sx={styles.paper} elevation={10} onClick={onClick}>
 				<Avatar
 					alt="image"
 					src={image}
@@ -162,7 +152,39 @@ function PresaleGridItem({ title, price, image, link }: PresaleGridItemProps) {
 					</Typography>
 				</Box>
 			</Paper>
-		</a>
+	);
+}
+
+function PresaleGridItemModal({ title, price, image }: PresaleGridItemProps) {
+	const [open, setOpen] = useState(false);
+
+	const handleOpen = () => {
+		setOpen(true);
+	}
+
+	const handleClose = () => {
+		setOpen(false);
+	}
+
+	return (	
+		<Box>	
+			<PresaleGridItem
+				title={title}
+				price={price}
+				image={image}
+				onClick={handleOpen}
+			/>
+			<Modal
+				open={open}
+				onClose={handleClose}
+			>
+				<Box>
+					<Paper>
+						<Wallet />
+					</Paper>
+				</Box>
+			</Modal>
+		</Box>
 	);
 }
 
@@ -176,11 +198,10 @@ export default function PresaleGrid() {
 				<Grid container spacing={2} sx={styles.gridContainer}>
 					{presaleItems.map((item, i) => (
 						<Grid item key={i}>
-							<PresaleGridItem
+							<PresaleGridItemModal
 								title={item.title}
 								price={item.price}
 								image={item.image}
-								link={item.link}
 								key={i}
 							/>
 						</Grid>
