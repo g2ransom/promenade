@@ -46,6 +46,14 @@ export default function Header() {
 					>
 						Promenade
 					</Button>
+					<Button
+						color="inherit"
+						component={Link}
+						to="/sandbox"
+						sx={styles.button}
+					>
+						Sandbox
+					</Button>
 				</Box>
 				<Box sx={{marginBottom: "1.5em"}}>
 					<IconButton

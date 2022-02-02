@@ -6,7 +6,8 @@ import GaRouteTracker from "./components/GaRouteTracker";
 import "./App.css";
 
 const Home = lazy(() => import("./pages/Home"));
-const Presale = lazy(() => import ("./pages/Presale"));
+const Presale = lazy(() => import("./pages/Presale"));
+const WalletSandbox = lazy(() => import("./pages/WalletSandbox"));
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
           <Route
             path="/presale"
             element={<Presale />}
+          />
+          <Route
+            path="/sandbox"
+            element={<WalletSandbox />}
           />
         </Routes>
       </Suspense>

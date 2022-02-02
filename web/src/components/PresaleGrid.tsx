@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 
 import ReactGA from "react-ga";
-import { Wallet } from "./Wallet";
 
 import grandmasGarden from "../images/grandmasgarden1080x1080.png";
 import girlEarring from "../images/girlwiththehoopearring1080x1080.png";
@@ -180,7 +179,9 @@ function PresaleGridItemModal({ title, price, image }: PresaleGridItemProps) {
 			>
 				<Box>
 					<Paper>
-						<Wallet />
+						<Typography>
+							The wallet should go here!
+						</Typography>
 					</Paper>
 				</Box>
 			</Modal>
