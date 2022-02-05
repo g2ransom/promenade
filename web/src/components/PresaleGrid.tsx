@@ -9,8 +9,6 @@ import {
 	Typography,
 } from "@mui/material";
 
-import ReactGA from "react-ga";
-
 import grandmasGarden from "../images/grandmasgarden1080x1080.png";
 import girlEarring from "../images/girlwiththehoopearring1080x1080.png";
 import withoutStruggle from "../images/withoutstruggle1080x1080.png";
@@ -24,7 +22,6 @@ interface PresaleGridItemProps {
 	title: string;
 	price: string;
 	image: string;
-	link: string;
 }
 
 const presaleItems: PresaleGridItemProps[] = [
@@ -32,49 +29,41 @@ const presaleItems: PresaleGridItemProps[] = [
 		title: "Grandma's Garden",
 		price: "$10",
 		image: grandmasGarden,
-		link: "https://buy.stripe.com/4gw3coeBN4K2cVifZ6",
 	},
 	{
 		title: "Girl with the Hoop Earring",
 		price: "$25",
 		image: girlEarring,
-		link: "https://buy.stripe.com/cN2dR23X90tMcViaEN",
 	},
 	{
 		title: "Without Struggle",
 		price: "$50",
 		image: withoutStruggle,
-		link: "https://buy.stripe.com/6oEdR2gJVdgy8F27sC",
 	},
 	{
 		title: "No Fury",
 		price: "$100",
 		image: noFury,
-		link: "https://buy.stripe.com/bIY7sEbpB7WecVieV5",
 	},
 	{
 		title: "St. Ignis",
 		price: "$250",
 		image: stIgnis,
-		link: "https://buy.stripe.com/6oE6oAbpBdgy1cA4gs",
 	},
 	{
 		title: "My Favorite Hue No. 1",
 		price: "$500",
 		image: myFavhue,
-		link: "https://buy.stripe.com/3cs14gfFRdgyaNa4gt",
 	},
 	{
 		title: "Breakthrough",
 		price: "$2,500",
 		image: breakthrough,
-		link: "https://buy.stripe.com/fZecMYfFRgsKcVi5ky",
 	},
 	{
 		title: "Baptized in Fire",
 		price: "$10,000",
 		image: baptizedInFire,
-		link: "https://buy.stripe.com/14k3coctFa4m08wcN1",
 	},
 ];
 
@@ -129,13 +118,9 @@ const styles = {
 	},
 }
 
-function PresaleGridItem({ title, price, image, link }: PresaleGridItemProps) {
-	const handleClick = () => {
-		ReactGA.outboundLink({ label: link }, function() {console.log("redirect here")})
-	}
+function PresaleGridItem({ title, price, image }: PresaleGridItemProps) {
 
 	return (
-		<a href={link} style={styles.href} onClick={handleClick}>
 			<Paper sx={styles.paper} elevation={10}>
 				<Avatar
 					alt="image"
@@ -162,7 +147,6 @@ function PresaleGridItem({ title, price, image, link }: PresaleGridItemProps) {
 					</Typography>
 				</Box>
 			</Paper>
-		</a>
 	);
 }
 
@@ -170,7 +154,7 @@ export default function PresaleGrid() {
 	return (
 		<Container maxWidth="md">
 			<Typography variant="h5" sx={styles.gridHeader}>
-				Presale NFTs
+				NFTs
 			</Typography>
 			<Box display="flex" alignItems="center">
 				<Grid container spacing={2} sx={styles.gridContainer}>
@@ -180,7 +164,6 @@ export default function PresaleGrid() {
 								title={item.title}
 								price={item.price}
 								image={item.image}
-								link={item.link}
 								key={i}
 							/>
 						</Grid>
