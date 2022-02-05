@@ -23,6 +23,11 @@ interface PhantomProvider {
   on: (event: PhantomEvent, handler: (args: any) => void) => void;
 }
 
+// to do, addLogs function
+interface PhantomProviderState extends PhantomProvider {
+  logs: string[];
+}
+
 const NETWORK = clusterApiUrl("devnet");
 
 const getProvider = (): PhantomProvider | undefined => {
@@ -72,7 +77,7 @@ export const useWallet = (): PhantomProvider | undefined =>  {
           addLog("[accountChanged] Switched account to " + publicKey?.toBase58());
         }
         else {
-          addLog("[accountChanged] Switched to unknown account");
+          addLog("[accountChanged] Switched to unknown account"  );
           provider
             .connect()
             .then(() => addLog("[accountChanged] Reconnected successfully"))
