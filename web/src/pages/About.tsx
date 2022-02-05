@@ -34,10 +34,6 @@ const details: DetailProps[] = [
 		response: "This money will be used to create content, courses, and resources that will be free for the AUC network to consume. Our plan is to develop an E-Book that gives readers all the information they need to use and leverage blockchain technology. We also plan to create an online course that breaks down how to build blockchain-based software for coders that are looking to build Web 3.0 applications. Lastly, we plan to set aside money to directly fund teams that are looking to validate their blockchain app ideas."
 	},
 	{
-		prompt: "Why should I buy presale?",
-		response: "People that buy presale will receive a 10% discount on all NFTs and will also be given an additional NFT for free."
-	},
-	{
 		prompt: "What's an NFT, again?",
 		response: "An NFT is short for non-fungible token. It's essentially a token that can be used to show the ownership of a unique digital asset that exists on a blockchain network."
 	},
@@ -48,10 +44,6 @@ const details: DetailProps[] = [
 	{
 		prompt: "How will these NFTs be created?",
 		response: "These 8 NFTs will be created on the Solana Blockchain using an NFT marketplace tool called Metaplex. We chose Solana over Ethereum because of the lower transaction costs. In terms of storing the actual digital art files, these images will be placed on the Arweave network. Arweave is a blockchain network that excels at storing data permanently."
-	},
-	{
-		prompt: "How will I get my NFT after this presale?",
-		response: "By the beginning of March, we'll reach out to get your crypto wallet information, so we can send you your NFTs. We'll be able to send your NFTs to a wide variety of wallets like Blocto, Phantom, Slope, and more. Once you receive the NFTs, they will be accessible through your wallet until you sell or transfer them."
 	},
 	{
 		prompt: "Who are the creators?",
@@ -108,7 +100,7 @@ function NFTSaleDetails() {
 	);
 }
 
-export default function PreSale() {
+export default function About() {
 	return (
 		<>
 		<PresaleGrid />

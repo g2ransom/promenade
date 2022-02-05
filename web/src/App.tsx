@@ -6,7 +6,7 @@ import GaRouteTracker from "./components/GaRouteTracker";
 import "./App.css";
 
 const Home = lazy(() => import("./pages/Home"));
-const Presale = lazy(() => import ("./pages/Presale"));
+const About = lazy(() => import ("./pages/About"));
 
 function App() {
   return (
@@ -19,8 +19,8 @@ function App() {
             element={<Home />}
           />
           <Route
-            path="/presale"
-            element={<Presale />}
+            path="/about"
+            element={<About />}
           />
         </Routes>
       </Suspense>

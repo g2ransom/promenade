@@ -57,10 +57,10 @@ export default function Header() {
 					<Button
 						color="inherit"
 						component={Link}
-						to="/presale"
+						to="/about"
 						sx={styles.button}
 					>
-						Presale
+						About Us
 					</Button>
 				</Box>
 			</Toolbar>
