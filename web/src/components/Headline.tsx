@@ -100,10 +100,10 @@ export default function Headline() {
 									variant="bold"
 									component={Link}
 									size="medium"
-									to="/presale"
+									to="/about"
 									sx={{...styles.button, mt: 2.0}}
 								>
-									Presale
+									About Us
 								</Button>
 							</Grid>
 							<Grid item xs={12} sm={6} md={6} lg={6}>
