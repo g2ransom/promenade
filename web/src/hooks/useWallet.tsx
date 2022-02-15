@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { 
   Connection,
   PublicKey,
+  Transaction,
   clusterApiUrl,
 } from "@solana/web3.js";
 
@@ -15,12 +16,14 @@ interface ConnectOpts {
   onlyIfTrusted: boolean;
 }
 
-interface PhantomProvider {
+export interface PhantomProvider {
   publicKey: PublicKey | null;
   isConnected: boolean | null;
   connect: (opts?: Partial<ConnectOpts>) => Promise<{ publicKey: PublicKey }>;
   disconnect: () => Promise<void>;
   on: (event: PhantomEvent, handler: (args: any) => void) => void;
+  signTransaction(tx: Transaction): Promise<Transaction>;
+  signAllTransactions(txs: Transaction[]): Promise<Transaction[]>
 }
 
 // to do, addLogs function

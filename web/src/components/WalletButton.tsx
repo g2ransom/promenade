@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
 	Box,
 	Button,
 	Typography,
 } from "@mui/material";
+
+import { WalletContext } from "../context/WalletContext";
 import { useWallet } from "../hooks/useWallet";
 
 export default function() {
-	const provider = useWallet();
+	const provider = useContext(WalletContext);
 
 	const onClickConnect = async () => {
 		try {

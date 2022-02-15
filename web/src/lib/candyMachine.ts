@@ -1,25 +1,25 @@
 import * as anchor from "@project-serum/anchor";
 import {
-	MintLayout,
+  MintLayout,
 	TOKEN_PROGRAM_ID,
 	Token,
 } from "@solana/spl-token";
 
-export const CANDY_MACHINE_PROGRAM: anchor.web3.PublicKey = anchor.web3.PublicKey(
-	"cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ"
+export const CANDY_MACHINE_PROGRAM: anchor.web3.PublicKey = new anchor.web3.PublicKey(
+  "cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ"
 );
 
-export const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: anchor.web3.PublicKey = anchor.web3.PublicKey(
+export const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: anchor.web3.PublicKey = new anchor.web3.PublicKey(
 	"ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
 );
 
-const TOKEN_METADATA_PROGRAM_ID: anchor.web3.PublicKey = anchor.web3.PublicKey(
+const TOKEN_METADATA_PROGRAM_ID: anchor.web3.PublicKey = new anchor.web3.PublicKey(
 	"metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s"
 );
 
 export interface CandyMachine {
-	id: PublicKey;
-	connection: Connection;
+	id: anchor.web3.PublicKey;
+	connection: anchor.web3.Connection;
 	program: anchor.Program;
 }
 
@@ -34,7 +34,7 @@ interface CandyMachineState {
 export const awaitTransactionSignatureConfirmation = async (
 	txId: anchor.web3.TransactionSignature,
 	timeout: number,
-	connection: anchor.web3.connection,
+	connection: anchor.web3.Connection,
 	commitment: anchor.web3.Commitment = "recent",
 	queryStatus = false
 ): Promise<anchor.web3.SignatureStatus | null | void> => {
@@ -112,9 +112,12 @@ export const awaitTransactionSignatureConfirmation = async (
 		}
 	});
 
-	if (connection._signatureSubscriptions[subId]) {
-		connection.removeSignatureListener(subId);
-	}
+  try {
+    connection.removeSignatureListener(subId);
+  } catch (e) {
+    console.log("err: ", e);
+  }
+
 	done = true;
 	console.log("Returning status", status);
 	return status;
