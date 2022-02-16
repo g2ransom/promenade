@@ -6,7 +6,7 @@ import {
 } from "@solana/spl-token";
 
 export const CANDY_MACHINE_PROGRAM: anchor.web3.PublicKey = new anchor.web3.PublicKey(
-  "cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ"
+  "cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ"
 );
 
 export const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: anchor.web3.PublicKey = new anchor.web3.PublicKey(
@@ -50,7 +50,7 @@ export const awaitTransactionSignatureConfirmation = async (
 			if (done) {
 				return;
 			}
-			done = true,
+			done = true;
 			console.log("Rejecting for timeout...");
 			reject({ timeout: true });
 		}, timeout);
@@ -161,13 +161,17 @@ export const getCandyMachineState = async (
   const provider = new anchor.Provider(connection, anchorWallet, {
     preflightCommitment: "recent",
   });
+  console.log("provider: ", provider);
+  console.log("candyMachine: ", CANDY_MACHINE_PROGRAM);
 
   const idl = await anchor.Program.fetchIdl(
     CANDY_MACHINE_PROGRAM,
     provider
   );
 
-  const program = new anchor.Program(idl, CANDY_MACHINE_PROGRAM, provider);
+  console.log(idl);
+
+  const program = new anchor.Program(idl as anchor.Idl, CANDY_MACHINE_PROGRAM, provider);
   const candyMachine = {
     id: candyMachineId,
     connection,
@@ -175,6 +179,7 @@ export const getCandyMachineState = async (
   }
 
   const state: any = await program.account.candyMachine.fetch(candyMachineId);
+  console.log("state: ", state);
 
   const itemsAvailable = state.data.itemsAvailable.toNumber();
   const itemsRedeemed = state.itemsRedeemed.toNumber();

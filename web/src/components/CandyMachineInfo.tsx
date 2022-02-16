@@ -1,9 +1,13 @@
-import React, { useContext, useReducer } from "react";
-import Alert from "@material-ui/lab/Alert";
+import React, { useContext, useEffect, useState, useReducer } from "react";
+import {
+  Box,
+  Typography,
+} from "@mui/material";
+import Alert from "@mui/material/Alert";
 import * as anchor from "@project-serum/anchor"; 
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { WalletContext } from "../context/WalletContext";
-import CandyMachineReducer, { initialState } from "../reducers/CandyMachineReducer";
+import CandyMachineReducer, { CandyMachineState, initialState } from "../reducers/CandyMachineReducer";
 import {
   CandyMachine,
   awaitTransactionSignatureConfirmation,
@@ -21,9 +25,23 @@ export interface CandyMachineProps {
   txTimeout: number;
 }
 
-export default function CandyMachine() {
+interface AlertState {
+  open: boolean;
+  message: string;
+  severity: "success" | "info" | "warning" | "error" | undefined;
+}
+
+export default function CandyMachineInfo({
+  candyMachineId,
+  config,
+  connection,
+  startDate,
+  treasury,
+  txTimeout,
+}: CandyMachineProps) {
   const wallet = useContext(WalletContext);
   const [state, dispatch] = useReducer(CandyMachineReducer, initialState);
+  const [liveDate, setLiveDate] = useState(new Date(startDate));
   const [alertState, setAlertState] = useState<AlertState>({
     open: false,
     message: "",
@@ -42,20 +60,26 @@ export default function CandyMachine() {
           itemsRedeemed,
         } = await getCandyMachineState(
           wallet as anchor.Wallet,
-          props.candyMachineId,
-          props.connection
+          candyMachineId,
+          connection
         );
 
-        dispatch({
-          type: "REFRESH",
-          payload: {
+        setLiveDate(goLiveDate)
+
+        const payload: CandyMachineState = {
+            candyMachine: candyMachine,
             itemsAvailable: itemsAvailable,
             itemsRemaining: itemsRemaining,
             itemsRedeemed: itemsRedeemed,
             isSoldOut: itemsRemaining === 0,
-            startDate: goLiveDate,
-            candyMachine: candyMachine,
-          }
+            balance: state.balance,
+            isActive: state.isActive,
+            isMinting: state.isMinting,
+        };
+
+        dispatch({
+          type: "REFRESH",
+          payload: payload,
         })
       })();
     };
@@ -67,18 +91,18 @@ export default function CandyMachine() {
           field: "isMinting",
           payload: true
         });
-        if (wallet && candyMachine?.program) {
+        if (wallet && state.candyMachine?.program) {
           const mintTxId = await mintOneToken(
-            candyMachine,
-            props.config,
+            state.candyMachine,
+            config,
             wallet.publicKey,
-            props.treasury
+            treasury
           );
 
           const status = await awaitTransactionSignatureConfirmation(
             mintTxId,
-            props.txTimeout,
-            props.connection,
+            txTimeout,
+            connection,
             "singleGossip",
             false
           );
@@ -127,7 +151,7 @@ export default function CandyMachine() {
         });
       } finally {
         if (wallet) {
-          const balance = await props.connection.getBalance(wallet.publicKey);
+          const balance = await connection.getBalance(wallet.publicKey);
           dispatch({
             type: "FIELD_CHANGE",
             field: "balance",
@@ -145,8 +169,8 @@ export default function CandyMachine() {
 
     useEffect(() => {
       (async () => {
-        if (wallet) {
-          const balance = await props.connection.getBalance(wallet.publicKey);
+        if (wallet?.publicKey) {
+          const balance = await connection.getBalance(wallet.publicKey);
           dispatch({
             type: "FIELD_CHANGE",
             field: "balance",
@@ -154,18 +178,27 @@ export default function CandyMachine() {
           });
         }
       })();
-    }, [wallet, props.connection]);
+    }, [wallet, connection]);
 
     useEffect(refreshCandyMachineState, [
       wallet,
-      props.candyMachineId,
-      props.connection,
+      candyMachineId,
+      connection,
     ]);
 
     return (
-      <div>
-        Placeholder
-      </div>
+      <Box>
+        {wallet 
+          ? <Typography>Wallet: {wallet.publicKey}</Typography>
+          : <Typography>Not Connected to Wallet</Typography>
+        }
+        {wallet 
+          ? <Typography>Balance: {(state.balance || 0).toLocaleString()} SOL</Typography>
+          : <Typography>No Balance</Typography>
+        }
+        {wallet && <Typography>Total Items Available: {state.itemsAvailable}</Typography>}
+        {wallet && <Typography>Redeemed: {state.itemsRedeemed}</Typography>}
+        {wallet && <Typography>Remaining: {state.itemsRemaining}</Typography>}
+      </Box>
     );
-
 };

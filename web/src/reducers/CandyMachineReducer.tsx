@@ -1,12 +1,19 @@
 import * as anchor from "@project-serum/anchor";
 
-interface AlertState {
+export interface AlertState {
 	open: boolean;
 	message: string;
 	severity: string | undefined;
 };
 
+interface CandyMachine {
+	id: anchor.web3.PublicKey;
+	connection: anchor.web3.Connection;
+	program: anchor.Program;
+}
+
 export interface CandyMachineState {
+	candyMachine: CandyMachine;
 	balance: number | null;
 	isActive: boolean;
 	isSoldOut: boolean;
@@ -14,17 +21,12 @@ export interface CandyMachineState {
 	itemsAvailable: number;
 	itemsRedeemed: number;
 	itemsRemaining: number;
-	alertState: AlertState;
 };
 
 
 export const initialState: CandyMachineState = {
-	candyMachine: {
-		id: anchor.web3.PublicKey,
-		connection: anchor.web3.connection,
-		program: anchor.Program,
-	},
-	balance: null,
+	candyMachine: {} as CandyMachine,
+	balance: 0,
 	isActive: false,
 	isSoldOut: false,
 	isMinting: false,
@@ -48,18 +50,6 @@ type ACTION_TYPE =
 				return {
 					...state,
 					[action.field]: action.payload,
-				};
-			}
-			case "SUCCESS_ALERT": {
-				return {
-					...state,
-					alertState: action.payload,
-				};
-			}
-			case "FAILURE_ALERT": {
-				return {
-					...state,
-					alertState: action.payload,
 				};
 			}
 			default:

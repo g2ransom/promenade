@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { 
   Connection,
+  Keypair,
   PublicKey,
   Transaction,
   clusterApiUrl,
@@ -17,7 +18,8 @@ interface ConnectOpts {
 }
 
 export interface PhantomProvider {
-  publicKey: PublicKey | null;
+  publicKey: PublicKey;
+  payer: Keypair;
   isConnected: boolean | null;
   connect: (opts?: Partial<ConnectOpts>) => Promise<{ publicKey: PublicKey }>;
   disconnect: () => Promise<void>;

@@ -15,7 +15,7 @@ function App() {
   const wallet = useWallet();
   return (
     <Router>
-      <WalletContext.Provider value={wallet}>
+      <WalletContext.Provider value={wallet} />
       <Header />
       <Suspense fallback={<Box display="flex" justifyContent="center">Loading...</Box>}>
         <Routes>
