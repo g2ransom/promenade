@@ -6,7 +6,7 @@ import {
 } from "@solana/spl-token";
 
 export const CANDY_MACHINE_PROGRAM: anchor.web3.PublicKey = new anchor.web3.PublicKey(
-  "cndyAnrLdpjq1Ssp1z8xxDsB8dxe7u4HL5Nxi2K5WXZ"
+  "cndy3Z4yapfJBmL3ShUp5exZKqR3z33thTzeNMm2gRZ"
 );
 
 export const SPL_ASSOCIATED_TOKEN_ACCOUNT_PROGRAM_ID: anchor.web3.PublicKey = new anchor.web3.PublicKey(
@@ -172,6 +172,7 @@ export const getCandyMachineState = async (
   console.log(idl);
 
   const program = new anchor.Program(idl as anchor.Idl, CANDY_MACHINE_PROGRAM, provider);
+  console.log("program: ", program);
   const candyMachine = {
     id: candyMachineId,
     connection,
@@ -182,6 +183,7 @@ export const getCandyMachineState = async (
   console.log("state: ", state);
 
   const itemsAvailable = state.data.itemsAvailable.toNumber();
+  console.log("itemsAvailable: ", itemsAvailable);
   const itemsRedeemed = state.itemsRedeemed.toNumber();
   const itemsRemaining = itemsAvailable - itemsRedeemed;
 

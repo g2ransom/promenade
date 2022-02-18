@@ -15,25 +15,26 @@ function App() {
   const wallet = useWallet();
   return (
     <Router>
-      <WalletContext.Provider value={wallet} />
-      <Header />
-      <Suspense fallback={<Box display="flex" justifyContent="center">Loading...</Box>}>
-        <Routes>
-          <Route
-            path="/"
-            element={<Home />}
-          />
-          <Route
-            path="/presale"
-            element={<Presale />}
-          />
-          <Route
-            path="/sandbox"
-            element={<WalletSandbox />}
-          />
-        </Routes>
-      </Suspense>
-      <GaRouteTracker />
+      <WalletContext.Provider value={wallet}>
+        <Header />
+        <Suspense fallback={<Box display="flex" justifyContent="center">Loading...</Box>}>
+          <Routes>
+            <Route
+              path="/"
+              element={<Home />}
+            />
+            <Route
+              path="/presale"
+              element={<Presale />}
+            />
+            <Route
+              path="/sandbox"
+              element={<WalletSandbox />}
+            />
+          </Routes>
+        </Suspense>
+        <GaRouteTracker />
+      </WalletContext.Provider>
     </Router>
   );
 }

@@ -8,7 +8,7 @@ import {
 import { WalletContext } from "../context/WalletContext";
 import { useWallet } from "../hooks/useWallet";
 
-export default function() {
+export default function WalletButton() {
 	const provider = useContext(WalletContext);
 
 	const onClickConnect = async () => {

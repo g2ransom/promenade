@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { 
   Connection,
   Keypair,
@@ -28,6 +28,12 @@ export interface PhantomProvider {
   signAllTransactions(txs: Transaction[]): Promise<Transaction[]>
 }
 
+export interface AnchorWallet {
+  publicKey: PublicKey;
+  signTransaction(transaction: Transaction): Promise<Transaction>;
+  signAllTransactions(transactions: Transaction[]): Promise<Transaction[]>;
+}
+
 // to do, addLogs function
 interface PhantomProviderState extends PhantomProvider {
   logs: string[];
@@ -39,6 +45,7 @@ const getProvider = (): PhantomProvider | undefined => {
   if ("solana" in window) {
     const anyWindow: any = window;
     const provider = anyWindow.solana;
+    console.log("phantom provider isPhantom: ", provider.isPhantom);
     if (provider.isPhantom) {
       return provider;
     }
@@ -47,7 +54,8 @@ const getProvider = (): PhantomProvider | undefined => {
 }
 
 export const useWallet = (): PhantomProvider | undefined =>  {
-  const provider = getProvider();
+  const { publicKey, payer, isConnected, connect, disconnect, on, signTransaction, signAllTransactions } = getProvider();
+  console.log(provider);
   const [logs, setLogs] = useState<string[]>([]);
   const addLog = useCallback(
     (log: string) => setLogs((logs) => [...logs, "> " + log]),
@@ -56,7 +64,6 @@ export const useWallet = (): PhantomProvider | undefined =>  {
 
   const connection = new Connection(NETWORK);
   const [connected, setConnected] = useState<boolean>(false);
-  const [publicKey, setPublicKey] = useState<PublicKey | null>(null);
 
   useEffect(() => {
     function fetchWallet() {
@@ -67,17 +74,15 @@ export const useWallet = (): PhantomProvider | undefined =>  {
 
       });
       provider.on("connect", (publicKey: PublicKey) => {
-        setPublicKey(publicKey);
         setConnected(true);
+        console.log("publicKey: ", publicKey);
         addLog("[connect] " + publicKey?.toBase58());
       });
       provider.on("disconnect", () => {
-        setPublicKey(null);
         setConnected(false);
         addLog("[disconnect] bye!");
       });
       provider.on("accountChanged", (publicKey: PublicKey | null) => {
-        setPublicKey(publicKey);
         if (publicKey) {
           addLog("[accountChanged] Switched account to " + publicKey?.toBase58());
         }
@@ -96,7 +101,25 @@ export const useWallet = (): PhantomProvider | undefined =>  {
       };
     }
     fetchWallet();
+    console.log("provider", provider);
   }, [provider, addLog]);
 
-  return provider;
+  return useMemo(
+        () =>
+            publicKey && payer && isConnected && connect && disconnect && on && signTransaction && signAllTransactions
+                ? { publicKey, payer, isConnected, connect, disconnect, on, signTransaction, signAllTransactions }
+                : undefined,
+        [publicKey, payer, isConnected, connect, disconnect, on, signTransaction, signAllTransactions]
+    );
+}
+
+export function useAnchorWallet(): AnchorWallet | undefined {
+    const { publicKey, signTransaction, signAllTransactions } = useContext(WalletContext);
+    return useMemo(
+        () =>
+            publicKey && signTransaction && signAllTransactions
+                ? { publicKey, signTransaction, signAllTransactions }
+                : undefined,
+        [publicKey, signTransaction, signAllTransactions]
+    );
 }

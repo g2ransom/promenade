@@ -6,6 +6,7 @@ import {
 import Alert from "@mui/material/Alert";
 import * as anchor from "@project-serum/anchor"; 
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import useAnchorWallet from "../hooks/useWallet";
 import { WalletContext } from "../context/WalletContext";
 import CandyMachineReducer, { CandyMachineState, initialState } from "../reducers/CandyMachineReducer";
 import {
@@ -40,8 +41,9 @@ export default function CandyMachineInfo({
   txTimeout,
 }: CandyMachineProps) {
   const wallet = useContext(WalletContext);
+  const anchorWallet = useAnchorWallet(wallet);
   const [state, dispatch] = useReducer(CandyMachineReducer, initialState);
-  const [liveDate, setLiveDate] = useState(new Date(startDate));
+  const [liveDate, setLiveDate] = useState(new Date());
   const [alertState, setAlertState] = useState<AlertState>({
     open: false,
     message: "",
@@ -59,12 +61,12 @@ export default function CandyMachineInfo({
           itemsRemaining,
           itemsRedeemed,
         } = await getCandyMachineState(
-          wallet as anchor.Wallet,
+          anchorWallet as anchor.Wallet,
           candyMachineId,
           connection
         );
 
-        setLiveDate(goLiveDate)
+        setLiveDate(goLiveDate);
 
         const payload: CandyMachineState = {
             candyMachine: candyMachine,
@@ -91,11 +93,11 @@ export default function CandyMachineInfo({
           field: "isMinting",
           payload: true
         });
-        if (wallet && state.candyMachine?.program) {
+        if (anchorWallet && state.candyMachine?.program) {
           const mintTxId = await mintOneToken(
             state.candyMachine,
             config,
-            wallet.publicKey,
+            anchorWallet.publicKey,
             treasury
           );
 
@@ -150,7 +152,7 @@ export default function CandyMachineInfo({
           severity: "error",
         });
       } finally {
-        if (wallet) {
+        if (anchorWallet) {
           const balance = await connection.getBalance(wallet.publicKey);
           dispatch({
             type: "FIELD_CHANGE",
@@ -169,7 +171,7 @@ export default function CandyMachineInfo({
 
     useEffect(() => {
       (async () => {
-        if (wallet?.publicKey) {
+        if (anchorWallet?.publicKey) {
           const balance = await connection.getBalance(wallet.publicKey);
           dispatch({
             type: "FIELD_CHANGE",
@@ -178,7 +180,7 @@ export default function CandyMachineInfo({
           });
         }
       })();
-    }, [wallet, connection]);
+    }, [anchorWallet, connection]);
 
     useEffect(refreshCandyMachineState, [
       wallet,
