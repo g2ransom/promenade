@@ -6,10 +6,11 @@ import {
 } from "@mui/material";
 
 import { WalletContext } from "../context/WalletContext";
-import { useWallet } from "../hooks/useWallet";
 
 export default function WalletButton() {
-	const provider = useContext(WalletContext);
+	const { provider, onUpdateProvider } = useContext(WalletContext);
+	const { publicKey } = provider;
+	console.log("provider: ", provider);
 
 	const onClickConnect = async () => {
 		try {
@@ -29,9 +30,9 @@ export default function WalletButton() {
 
 	return (
 		<>
-		{provider && provider.publicKey ? (
+		{publicKey ? (
 			<Box display="flex" alignItems="center">
-				<Typography>{provider.publicKey.toBase58()}</Typography>
+				<Typography>{publicKey.toBase58()}</Typography>
 				<Button
 					onClick={onClickDisconnect}
 				>

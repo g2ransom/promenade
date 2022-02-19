@@ -40,8 +40,8 @@ export default function CandyMachineInfo({
   treasury,
   txTimeout,
 }: CandyMachineProps) {
-  const wallet = useContext(WalletContext);
-  const anchorWallet = useAnchorWallet(wallet);
+  const { provider, onUpdateProvider } = useContext(WalletContext);
+  const anchorWallet = useAnchorWallet();
   const [state, dispatch] = useReducer(CandyMachineReducer, initialState);
   const [liveDate, setLiveDate] = useState(new Date());
   const [alertState, setAlertState] = useState<AlertState>({
@@ -52,7 +52,7 @@ export default function CandyMachineInfo({
 
   const refreshCandyMachineState = () => {
       (async () => {
-        if (!wallet) return;
+        if (!anchorWallet) return;
 
         const {
           candyMachine,
@@ -153,7 +153,7 @@ export default function CandyMachineInfo({
         });
       } finally {
         if (anchorWallet) {
-          const balance = await connection.getBalance(wallet.publicKey);
+          const balance = await connection.getBalance(anchorWallet.publicKey);
           dispatch({
             type: "FIELD_CHANGE",
             field: "balance",
@@ -172,7 +172,7 @@ export default function CandyMachineInfo({
     useEffect(() => {
       (async () => {
         if (anchorWallet?.publicKey) {
-          const balance = await connection.getBalance(wallet.publicKey);
+          const balance = await connection.getBalance(anchorWallet.publicKey);
           dispatch({
             type: "FIELD_CHANGE",
             field: "balance",
@@ -183,24 +183,24 @@ export default function CandyMachineInfo({
     }, [anchorWallet, connection]);
 
     useEffect(refreshCandyMachineState, [
-      wallet,
+      anchorWallet,
       candyMachineId,
       connection,
     ]);
 
     return (
       <Box>
-        {wallet 
-          ? <Typography>Wallet: {wallet.publicKey}</Typography>
+        {anchorWallet 
+          ? <Typography>Wallet: {anchorWallet.publicKey}</Typography>
           : <Typography>Not Connected to Wallet</Typography>
         }
-        {wallet 
+        {anchorWallet 
           ? <Typography>Balance: {(state.balance || 0).toLocaleString()} SOL</Typography>
           : <Typography>No Balance</Typography>
         }
-        {wallet && <Typography>Total Items Available: {state.itemsAvailable}</Typography>}
-        {wallet && <Typography>Redeemed: {state.itemsRedeemed}</Typography>}
-        {wallet && <Typography>Remaining: {state.itemsRemaining}</Typography>}
+        {anchorWallet && <Typography>Total Items Available: {state.itemsAvailable}</Typography>}
+        {anchorWallet && <Typography>Redeemed: {state.itemsRedeemed}</Typography>}
+        {anchorWallet && <Typography>Remaining: {state.itemsRemaining}</Typography>}
       </Box>
     );
 };

@@ -30,11 +30,11 @@ console.log("startDateSeed: ", startDateSeed);
 const txTimeout = 30000; // milliseconds (confirm this works for your project)
 
 export default function WalletSandbox() {
-	const wallet = useContext(WalletContext);
+	const { provider, onUpdateProvider } = useContext(WalletContext);
 	return (
 		<Container maxWidth="md" sx={{display: "flex", justifyContent: "center"}}>
 			<WalletButton />
-			{wallet && (
+			{provider?.publicKey && (
 				<CandyMachineInfo
 				candyMachineId={candyMachineId}
   			config={config}
